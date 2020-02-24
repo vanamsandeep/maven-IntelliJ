@@ -1,0 +1,94 @@
+---MAVEN COORDINATES----
+--------------------------------------------------------------------------------
+Identify artifacts- specific artifacts and its kind of finding an address for particular maven details in repository.
+Group ID: Typicaly unique to an organization often the organizations reverse domain is used.
+Artifcat Id: Typically project name- descriptor of the artifact
+version: version of the project.
+----MAVEN VERSIONS:----
+If any maven version 3.2.1
+Major Version is 3
+Minor version is 2
+Incremental Version(Patch) 1
+also some times it has Build Number and Qualifier (3.2.1.987-beta  --> 987 is BuildNumber and beta will be Qualifier)
+Snapshot is maven development version
+--------------------------------------------------------------------------------------
+MAVEN REPOSITORIES
+its a location where project artifacts are stored
+local -- <userName>/.m2/
+Central - public repository https://repo1.maven.org/maven2
+Remote-- Other locations which can be public or private
+
+When project calls maven
+Project <----> Local in/.m2 <----> Central/others
+---------------------------------------------------------------------------------
+Maven Wagon
+Maven Wagon is a unified Maven API
+it is a transport abstraction for artifact and repository handling code.
+--------------------------------------------------------------------------------
+Maven POM (Project Object Model):
+This is XML document used to describe Maven project.
+Must comply with Maven-4.0.0.xsd
+ XML schema defines rules for the XML Document
+ POMS can inherit from parent POM
+ sub modules also inherit
+--------------------------------------------------------
+MAVEN Dependencies
+ Dependency: A dependency is an artifact which your Maven project is depends upon
+       Typically Jar or pom
+ Transitive Depenency : A dependency of an artifact which your project depends on
+       Can go Many layers deep.
+        Cyclic dependecies are not supported(A depends on B, B depends on A)
+ Dependency Management : Allows project authors to specify the versions of artifacts to be used.
+ Dependency Mediation:
+Excluded Dependencies: Ability to exclude specific dependencies
+Optional Dependencies : Ability to make dependencies optional.
+-------------------------------------------------------
+Dependency Scope:
+      Compile : Compile scope is default  Avaliable on all CLass path of project. --> like compile, run and test class paths
+      Provided : Like Compile,  but expected by JDK or container at runtime.
+      Runtime : Not required for compile, but needed for runtime. On runtime test classpaths not compile.   --> like database connection
+      Test: Only avaliable on test classpath, not transitive   --> These dependencies avaliable only at testing time like Junit, Mockito
+      System: similar to provided, but JAR is added to system explicitly.
+      Import : Imports dependency of POM.
+-----------------------------------------------------------------------------------
+Depency Plugin:
+           Dependencies are managed by The Maven Dependency Plugin
+           Important goals:
+                     dependency:tree ---> Shows the dependency tree. Useful for resolving conflicts
+                     dependency:go-offline ---> Resolve all all prepare to go offline
+                     dependency:purge-local-repository ---> Clear artifacts from local repository
+                     dependency:sources ---> get sources for all dependencies
+--------------------------------------------------------------------------------------------------
+MAVEN BUILD LIFECYCLES:
+---------------------------------
+          Maven is based on the concept of build lifecycles
+          A liecyle is pre-defined group of build steps called phases
+          Each pahase can be bound to one or more plugin goals
+          Keep in mind all work done in Maven is done by plugins!
+          LifeCycles and phases provide the framework to call plugin goals in a sequence
+
+   Maven has 3 pre defined in lifecycles: Clean, default, site
+         Clean --> Does a clean of the project, removes all build artifacts from working directory
+                   Defined with plugin bindings
+         Default --> Does the build and deployment of your project
+                     Defined without plugin bindings, bindings are defined for each packaging
+         Site --> Creates the website for yuor project
+                  Defined with plugin bindings
+                  Least used in the enterprise
+                  See any of the MAven websites for example
+                   All are build using maven site life cycle.
+ ------------Clean Lifecycle: ------------
+ Clean Lifecyle
+ Phase: Pre-clean      ------------
+ phase: clean          ------------>Plugin Binding------->  Maven Clean Plugin, Goal :clean
+ phase : post-clean
+
+--------Default Life cyele:-------
+Validate : verify project is correct
+Compile: Compile Source code
+Test : Test Compiled Soruce code
+Package : Package compiled files to package type
+Verify: Run Integration Tests
+Install: Install to local Maven Repository
+Deploy: Deploy to SHared Maven Repository
+--------------------------------------------------------
